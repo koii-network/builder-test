@@ -1,45 +1,34 @@
-import unittest
-import sys
-import os
+import pytest
+from src.string_reversal import reverse_string
 
-# Add the src directory to the Python path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'src')))
+def test_reverse_string_normal():
+    """Test reversing a normal string."""
+    assert reverse_string("hello") == "olleh"
+    assert reverse_string("python") == "nohtyp"
 
-from string_reversal import reverse_string
+def test_reverse_string_empty():
+    """Test reversing an empty string."""
+    assert reverse_string("") == ""
 
-class TestStringReversal(unittest.TestCase):
-    def test_basic_string_reversal(self):
-        """Test reversing a basic string"""
-        self.assertEqual(reverse_string("hello"), "olleh")
-    
-    def test_empty_string(self):
-        """Test reversing an empty string"""
-        self.assertEqual(reverse_string(""), "")
-    
-    def test_single_character(self):
-        """Test reversing a single character"""
-        self.assertEqual(reverse_string("a"), "a")
-    
-    def test_palindrome(self):
-        """Test reversing a palindrome"""
-        self.assertEqual(reverse_string("racecar"), "racecar")
-    
-    def test_string_with_spaces(self):
-        """Test reversing a string with spaces"""
-        self.assertEqual(reverse_string("hello world"), "dlrow olleh")
-    
-    def test_string_with_special_characters(self):
-        """Test reversing a string with special characters"""
-        self.assertEqual(reverse_string("hello, world!"), "!dlrow ,olleh")
-    
-    def test_non_string_input(self):
-        """Test that a TypeError is raised for non-string input"""
-        with self.assertRaises(TypeError):
-            reverse_string(12345)
-        with self.assertRaises(TypeError):
-            reverse_string(None)
-        with self.assertRaises(TypeError):
-            reverse_string(["hello"])
+def test_reverse_string_special_chars():
+    """Test reversing a string with special characters."""
+    assert reverse_string("hello, world!") == "!dlrow ,olleh"
 
-if __name__ == '__main__':
-    unittest.main()
+def test_reverse_string_with_spaces():
+    """Test reversing a string with spaces."""
+    assert reverse_string("  hello  ") == "  olleh  "
+
+def test_reverse_string_single_char():
+    """Test reversing a single character string."""
+    assert reverse_string("a") == "a"
+
+def test_reverse_string_invalid_input():
+    """Test that TypeError is raised for non-string inputs."""
+    with pytest.raises(TypeError, match="Input must be a string"):
+        reverse_string(123)
+    
+    with pytest.raises(TypeError, match="Input must be a string"):
+        reverse_string(None)
+    
+    with pytest.raises(TypeError, match="Input must be a string"):
+        reverse_string(["hello"])
