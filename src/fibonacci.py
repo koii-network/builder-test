@@ -1,12 +1,12 @@
-def calculate_fibonacci(n):
+def fibonacci_nth_term(n):
     """
     Calculate the nth term in the Fibonacci sequence.
     
     Args:
-        n (int): The position in the Fibonacci sequence (0-indexed).
+        n (int): The position of the term to calculate (0-based index).
     
     Returns:
-        int: The nth Fibonacci number.
+        int: The nth term in the Fibonacci sequence.
     
     Raises:
         ValueError: If n is negative.
@@ -22,10 +22,10 @@ def calculate_fibonacci(n):
     # Handle base cases
     if n == 0:
         return 0
-    elif n == 1:
+    if n == 1:
         return 1
     
-    # Iterative approach for better performance
+    # Iterative approach to calculate nth term
     a, b = 0, 1
     for _ in range(2, n + 1):
         a, b = b, a + b
