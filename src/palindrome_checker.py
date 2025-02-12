@@ -1,4 +1,4 @@
-def is_palindrome(s):
+def is_palindrome(s: str) -> bool:
     """
     Check if a given string is a palindrome.
     
