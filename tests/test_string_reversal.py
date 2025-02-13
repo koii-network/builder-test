@@ -1,5 +1,5 @@
 import pytest
-from src.string_reversal import reverse_string
+from string_reversal import reverse_string
 
 def test_reverse_string_normal():
     """Test reversing a normal string."""
