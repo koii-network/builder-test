@@ -1,5 +1,5 @@
 import pytest
-from ..src.fibonacci import fibonacci_nth_term
+from src.fibonacci import fibonacci_nth_term
 
 def test_fibonacci_nth_term_basic_cases():
     """Test basic Fibonacci sequence cases."""
