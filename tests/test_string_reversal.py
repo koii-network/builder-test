@@ -1,0 +1,31 @@
+import pytest
+from src.string_reversal import reverse_string
+
+def test_reverse_string_basic():
+    """Test basic string reversal."""
+    assert reverse_string("hello") == "olleh"
+    assert reverse_string("world") == "dlrow"
+
+def test_reverse_string_empty():
+    """Test reversing an empty string."""
+    assert reverse_string("") == ""
+
+def test_reverse_string_palindrome():
+    """Test reversing a palindrome."""
+    assert reverse_string("racecar") == "racecar"
+
+def test_reverse_string_with_spaces():
+    """Test reversing a string with spaces."""
+    assert reverse_string("hello world") == "dlrow olleh"
+
+def test_reverse_string_with_punctuation():
+    """Test reversing a string with punctuation."""
+    assert reverse_string("hello, world!") == "!dlrow ,olleh"
+
+def test_reverse_string_invalid_input():
+    """Test that a TypeError is raised for non-string inputs."""
+    with pytest.raises(TypeError, match="Input must be a string"):
+        reverse_string(123)
+    
+    with pytest.raises(TypeError, match="Input must be a string"):
+        reverse_string(None)
