@@ -31,8 +31,9 @@ def test_invalid_input():
 def test_unique_substrings_complex():
     """Test a more complex string with varied characters."""
     result = find_unique_substrings("hello")
-    assert result == ["h", "he", "hel", "hell", "hello", 
-                      "e", "el", "ell", "ello", 
-                      "l", "ll", "llo", 
-                      "l", "lo", 
-                      "o"]
+    expected = ["h", "he", "hel", "hell", "hello", 
+                "e", "el", "ell", "ello", 
+                "l", "ll", "llo", 
+                "lo", 
+                "o"]
+    assert result == expected
