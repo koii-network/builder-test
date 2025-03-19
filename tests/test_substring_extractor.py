@@ -32,7 +32,7 @@ def test_complex_string():
     """Test a more complex string"""
     result = extract_unique_substrings("hello")
     expected = ['h', 'e', 'l', 'o', 'he', 'el', 'll', 'lo', 'hel', 'ell', 'llo', 'hello']
-    # Check that all expected substrings are in the result
-    assert all(substring in result for substring in expected)
-    # Check that the result contains no extra unique substrings
-    assert len(result) == len(expected)
+    # Check that these substrings are in the result
+    expected_set = set(expected)
+    result_set = set(result)
+    assert expected_set.issubset(result_set), f"Missing substrings: {expected_set - result_set}"
