@@ -1,4 +1,4 @@
-def int_to_roman(number: int) -> str:
+def to_roman_numeral(number: int) -> str:
     """
     Convert a non-negative integer to its Roman numeral representation.
     
@@ -10,6 +10,7 @@ def int_to_roman(number: int) -> str:
     
     Raises:
         ValueError: If the input is not between 0 and 3999
+        TypeError: If the input is not an integer
     """
     # Validate input range
     if not isinstance(number, int):
@@ -24,26 +25,26 @@ def int_to_roman(number: int) -> str:
     
     # Define Roman numeral symbols and their corresponding values
     roman_map = [
-        (1000, "M"),
-        (900, "CM"),
-        (500, "D"),
-        (400, "CD"),
-        (100, "C"),
-        (90, "XC"),
-        (50, "L"),
-        (40, "XL"),
-        (10, "X"),
-        (9, "IX"),
-        (5, "V"),
-        (4, "IV"),
-        (1, "I")
+        (1000, 'M'),
+        (900, 'CM'),
+        (500, 'D'),
+        (400, 'CD'),
+        (100, 'C'),
+        (90, 'XC'),
+        (50, 'L'),
+        (40, 'XL'),
+        (10, 'X'),
+        (9, 'IX'),
+        (5, 'V'),
+        (4, 'IV'),
+        (1, 'I')
     ]
     
-    # Build Roman numeral representation
+    # Build Roman numeral string
     result = []
     for value, symbol in roman_map:
         while number >= value:
             result.append(symbol)
             number -= value
     
-    return "".join(result)
+    return ''.join(result)
