@@ -19,14 +19,15 @@ def extract_unique_substrings(input_string):
     if not input_string:
         return []
     
-    # Use a set to track unique substrings to ensure uniqueness
-    unique_substrings = set()
+    # Use an ordered dict to track unique substrings to preserve order
+    unique_substrings = {}
     
     # Generate all possible substrings
     for start in range(len(input_string)):
         for end in range(start + 1, len(input_string) + 1):
             substring = input_string[start:end]
-            unique_substrings.add(substring)
+            if substring not in unique_substrings:
+                unique_substrings[substring] = None
     
-    # Convert to list to maintain order of discovery
-    return list(dict.fromkeys(unique_substrings))
+    # Convert keys to list to maintain order of discovery
+    return list(unique_substrings.keys())
