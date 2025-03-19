@@ -33,7 +33,7 @@ def test_find_unique_substrings_invalid_input():
 def test_find_unique_substrings_whitespace():
     """Test handling of strings with whitespace."""
     result = find_unique_substrings(" a b ")
-    expected = [' ', ' a', ' a ', ' b', ' b ', 'a', 'a ', 'b', 'b ']
+    expected = [' ', ' a', ' a ', ' a b', ' a b ', ' b', ' b ', 'a', 'a ', 'a b', 'a b ', 'b', 'b ']
     assert sorted(result) == expected
 
 def test_find_unique_substrings_mixed_chars():
