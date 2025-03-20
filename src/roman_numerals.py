@@ -1,4 +1,4 @@
-def to_roman_numeral(number: int) -> str:
+def int_to_roman(number: int) -> str:
     """
     Convert a non-negative integer to its Roman numeral representation.
     
