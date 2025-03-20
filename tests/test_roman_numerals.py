@@ -34,3 +34,16 @@ def test_int_to_roman_type_error():
     
     with pytest.raises(TypeError, match="Input must be an integer"):
         int_to_roman(None)
+
+def test_edge_cases():
+    """Test additional edge cases and special numbers"""
+    assert int_to_roman(3) == 'III'
+    assert int_to_roman(5) == 'V'
+    assert int_to_roman(10) == 'X'
+    assert int_to_roman(40) == 'XL'
+    assert int_to_roman(50) == 'L'
+    assert int_to_roman(90) == 'XC'
+    assert int_to_roman(100) == 'C'
+    assert int_to_roman(400) == 'CD'
+    assert int_to_roman(900) == 'CM'
+    assert int_to_roman(1000) == 'M'
