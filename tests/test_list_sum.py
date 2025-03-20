@@ -15,11 +15,11 @@ def test_calculate_sum_single_element():
 
 def test_calculate_sum_negative_numbers():
     """Test with negative numbers"""
-    assert calculate_sum([-1, -2, -3]) == -14  # 0*(-1) + 1*(-2) + 2*(-3) = 0 - 2 - 6 = -8
+    assert calculate_sum([-1, -2, -3]) == -8  # 0*(-1) + 1*(-2) + 2*(-3) = 0 - 2 - 6 = -8
 
 def test_calculate_sum_mixed_numbers():
     """Test with mixed positive and negative numbers"""
-    assert calculate_sum([1, -2, 3, -4]) == -10
+    assert calculate_sum([1, -2, 3, -4]) == -8
 
 def test_calculate_sum_invalid_input_not_list():
     """Test that a TypeError is raised when input is not a list"""
