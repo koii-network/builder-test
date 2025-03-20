@@ -15,7 +15,7 @@ def test_calculate_sum_single_element():
 
 def test_calculate_sum_negative_numbers():
     """Test with negative numbers."""
-    assert calculate_sum([-1, -2, -3]) == -14  # 0*(-1) + 1*(-2) + 2*(-3) = 0 - 2 - 6 = -8
+    assert calculate_sum([-1, -2, -3]) == -8  # 0*(-1) + 1*(-2) + 2*(-3) = 0 - 2 - 6 = -8
 
 def test_calculate_sum_zero_numbers():
     """Test with a list containing zeros."""
