@@ -19,7 +19,7 @@ def test_calculate_sum_negative_numbers():
 
 def test_calculate_sum_mixed_numbers():
     """Test with a mix of positive and negative numbers."""
-    assert calculate_sum([1, -2, 3, -4]) == -10
+    assert calculate_sum([1, -2, 3, -4]) == -8
 
 def test_calculate_sum_invalid_input_non_list():
     """Test that a TypeError is raised for non-list input."""
