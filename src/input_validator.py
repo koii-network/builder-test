@@ -6,7 +6,7 @@ with comprehensive error handling.
 """
 
 import re
-from typing import Any, Union, List, Dict, Optional
+from typing import Any, Union, List, Dict, Optional, Tuple, Type
 
 
 class ValidationError(ValueError):
@@ -38,13 +38,13 @@ def validate_not_empty(value: Any, name: str = 'Input') -> str:
     return value
 
 
-def validate_type(value: Any, expected_type: type, name: str = 'Input') -> Any:
+def validate_type(value: Any, expected_type: Union[Type, Tuple[Type, ...]], name: str = 'Input') -> Any:
     """
     Validate the type of an input.
     
     Args:
         value (Any): The value to validate
-        expected_type (type): The expected type of the input
+        expected_type (Union[Type, Tuple[Type, ...]]): The expected type(s) of the input
         name (str, optional): Name of the input for error message. Defaults to 'Input'.
     
     Returns:
@@ -53,8 +53,16 @@ def validate_type(value: Any, expected_type: type, name: str = 'Input') -> Any:
     Raises:
         ValidationError: If the input is not of the expected type
     """
-    if not isinstance(value, expected_type):
-        raise ValidationError(f"{name} must be of type {expected_type.__name__}")
+    # Convert single type to tuple for consistent handling
+    if not isinstance(expected_type, tuple):
+        expected_type = (expected_type,)
+    
+    # Construct type names string
+    type_names = ' or '.join([t.__name__ for t in expected_type])
+    
+    # Check if the value is an instance of any of the expected types
+    if not any(isinstance(value, t) for t in expected_type):
+        raise ValidationError(f"{name} must be of type {type_names}")
     
     return value
 
