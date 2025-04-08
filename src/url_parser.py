@@ -22,6 +22,10 @@ def parse_url(url: str) -> Dict[str, Any]:
         # Use urlparse to break down the URL
         parsed_url = urlparse(url)
         
+        # Additional validation for invalid URLs
+        if not parsed_url.scheme or not parsed_url.netloc:
+            raise ValueError(f"Invalid URL: {url}")
+        
         # Extract query parameters
         query_params = parse_qs(parsed_url.query)
         
@@ -41,6 +45,8 @@ def parse_url(url: str) -> Dict[str, Any]:
             'hostname': parsed_url.hostname,
             'port': parsed_url.port
         }
+    except ValueError:
+        raise
     except Exception:
         # Catch any unexpected parsing errors
         raise ValueError(f"Invalid URL: {url}")
