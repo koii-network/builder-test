@@ -1,4 +1,4 @@
-from urllib.parse import urlparse, parse_qs
+from urllib.parse import urlparse, parse_qs, unquote
 
 def parse_url(url):
     """
@@ -24,19 +24,22 @@ def parse_url(url):
         # Parse query parameters 
         query_params = parse_qs(parsed.query)
         
-        # Flatten single-item query parameter lists
-        query_params = {k: v[0] if len(v) == 1 else v for k, v in query_params.items()}
+        # Flatten single-item query parameter lists and decode values
+        query_params = {
+            unquote(k): unquote(v[0]) if len(v) == 1 else [unquote(val) for val in v] 
+            for k, v in query_params.items()
+        }
         
         # Construct and return a comprehensive dictionary of URL components
         return {
             'scheme': parsed.scheme,
             'netloc': parsed.netloc,
-            'path': parsed.path,
+            'path': unquote(parsed.path),  # Decode path
             'params': parsed.params,
             'query': query_params,
             'fragment': parsed.fragment,
-            'username': parsed.username,
-            'password': parsed.password,
+            'username': unquote(parsed.username) if parsed.username else None,
+            'password': unquote(parsed.password) if parsed.password else None,
             'hostname': parsed.hostname,
             'port': parsed.port
         }
