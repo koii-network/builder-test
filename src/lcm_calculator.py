@@ -1,46 +1,44 @@
-from src.gcd_calculator import gcd_using_prime_factors
-from math import gcd
-
 def lcm(a: int, b: int) -> int:
     """
-    Calculate the Least Common Multiple (LCM) of two positive integers using GCD.
+    Calculate the Least Common Multiple (LCM) of two positive integers.
     
     LCM is calculated using the formula: LCM(a,b) = (a * b) / GCD(a,b)
     
     Args:
-        a (int): First non-negative integer
-        b (int): Second non-negative integer
+        a (int): First positive integer
+        b (int): Second positive integer
     
     Returns:
         int: The Least Common Multiple of a and b
     
     Raises:
-        ValueError: If either input is negative
+        ValueError: If either input is less than or equal to 0
     """
     # Validate input
-    if a < 0 or b < 0:
-        raise ValueError("Inputs must be non-negative integers")
+    if a <= 0 or b <= 0:
+        raise ValueError("Inputs must be positive integers")
     
-    # Special case: if either number is 0, LCM is 0
-    if a == 0 or b == 0:
-        return 0
+    # Calculate GCD using Euclidean algorithm
+    def gcd(x: int, y: int) -> int:
+        while y:
+            x, y = y, x % y
+        return x
     
-    # Use Python's built-in gcd for better performance with large numbers
-    # Calculate LCM using the formula: LCM(a,b) = (a * b) / GCD(a,b)
+    # Use the formula: LCM(a,b) = (a * b) / GCD(a,b)
     return (a * b) // gcd(a, b)
 
 def lcm_multiple(*numbers: int) -> int:
     """
-    Calculate the Least Common Multiple (LCM) of multiple non-negative integers.
+    Calculate the Least Common Multiple (LCM) of multiple positive integers.
     
     Args:
-        *numbers (int): Variable number of non-negative integers
+        *numbers (int): Variable number of positive integers
     
     Returns:
         int: The Least Common Multiple of all input numbers
     
     Raises:
-        ValueError: If no numbers are provided or any number is negative
+        ValueError: If no numbers are provided or any number is less than or equal to 0
     """
     if not numbers:
         raise ValueError("At least one number must be provided")
