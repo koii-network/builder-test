@@ -8,21 +8,21 @@ def gcd_using_prime_factors(a, b):
     between two numbers and multiplying them.
     
     Args:
-        a (int): First positive integer.
-        b (int): Second positive integer.
+        a (int): First non-negative integer.
+        b (int): Second non-negative integer.
     
     Returns:
         int: The Greatest Common Divisor of a and b.
     
     Raises:
-        ValueError: If either input is not a positive integer.
+        ValueError: If either input is not an integer.
     """
     # Validate inputs
     if not (isinstance(a, int) and isinstance(b, int)):
         raise ValueError("Inputs must be integers")
     
-    if a <= 0 or b <= 0:
-        raise ValueError("Inputs must be positive integers")
+    if a < 0 or b < 0:
+        raise ValueError("Inputs must be non-negative integers")
     
     # Special case: if either number is 0, return the other number
     if a == 0:
