@@ -24,10 +24,10 @@ def test_gcd_error_handling():
     with pytest.raises(ValueError, match="Inputs must be integers"):
         gcd_using_prime_factors("10", 5)
     
-    with pytest.raises(ValueError, match="Inputs must be positive integers"):
+    with pytest.raises(ValueError, match="Inputs must be non-negative integers"):
         gcd_using_prime_factors(-5, 10)
     
-    with pytest.raises(ValueError, match="Inputs must be positive integers"):
+    with pytest.raises(ValueError, match="Inputs must be non-negative integers"):
         gcd_using_prime_factors(0, -5)
 
 def test_gcd_large_numbers():
