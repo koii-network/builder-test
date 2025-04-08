@@ -1,9 +1,9 @@
-def reverse_string(s: str) -> str:
+def reverse_string(input_string: str) -> str:
     """
-    Reverses the input string.
+    Reverses the input string character by character.
 
     Args:
-        s (str): The input string to be reversed.
+        input_string (str): The string to be reversed.
 
     Returns:
         str: The reversed string.
@@ -11,9 +11,24 @@ def reverse_string(s: str) -> str:
     Raises:
         TypeError: If the input is not a string.
     """
-    # Check if input is a string
-    if not isinstance(s, str):
+    # Type checking
+    if not isinstance(input_string, str):
         raise TypeError("Input must be a string")
     
-    # Return the reversed string
-    return s[::-1]
+    # Convert string to list of characters
+    chars = list(input_string)
+    
+    # Manually reverse the list using two-pointer technique
+    left = 0
+    right = len(chars) - 1
+    
+    while left < right:
+        # Swap characters
+        chars[left], chars[right] = chars[right], chars[left]
+        
+        # Move pointers
+        left += 1
+        right -= 1
+    
+    # Convert back to string
+    return ''.join(chars)
