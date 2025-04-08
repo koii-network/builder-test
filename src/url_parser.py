@@ -33,24 +33,31 @@ def parse_url(url: str) -> Dict[str, Any]:
             'fragment': parsed_url.fragment
         }
 
-        # Additional parsing for netloc
+        # Handle credentials, host, and port
         if '@' in parsed_url.netloc:
-            # Split credentials if present
-            credentials, host = parsed_url.netloc.split('@')
+            # Split credentials and host
+            credentials, host_port = parsed_url.netloc.split('@')
+            
+            # Parse credentials
             if ':' in credentials:
                 username, password = credentials.split(':')
                 result['username'] = username
                 result['password'] = password
             else:
                 result['username'] = credentials
-        
-        # Handle host and port
-        if ':' in parsed_url.netloc:
-            host_parts = parsed_url.netloc.split(':')
-            result['host'] = host_parts[0]
-            result['port'] = host_parts[1] if len(host_parts) > 1 else None
+                result['password'] = None
         else:
-            result['host'] = parsed_url.netloc
+            host_port = parsed_url.netloc
+            result['username'] = None
+            result['password'] = None
+
+        # Handle host and port
+        if ':' in host_port:
+            host, port = host_port.split(':')
+            result['host'] = host
+            result['port'] = port
+        else:
+            result['host'] = host_port
             result['port'] = None
 
         return result
