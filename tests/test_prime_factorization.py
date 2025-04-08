@@ -1,5 +1,6 @@
 import pytest
 from src.prime_factorization import prime_factorization
+from src.is_prime import is_prime
 
 def test_prime_factorization_basic():
     """Test basic prime factorization scenarios."""
@@ -40,3 +41,11 @@ def test_prime_factorization_type_error():
     
     with pytest.raises(TypeError, match="Input must be an integer"):
         prime_factorization(None)
+
+def test_is_prime_integration():
+    """Test integration of is_prime function."""
+    # Verify that all factors from prime_factorization are prime
+    test_numbers = [12, 84, 100, 1024, 17, 29]
+    for num in test_numbers:
+        factors = prime_factorization(num)
+        assert all(is_prime(factor) for factor in factors), f"Not all factors of {num} are prime"
