@@ -28,6 +28,11 @@ def parse_url(url: str) -> Dict[str, Any]:
         # Flatten single-item lists in query params
         query_params = {k: v[0] if len(v) == 1 else v for k, v in query_params.items()}
         
+        # Get hostname (preserve brackets for IPv6)
+        hostname = parsed_url.hostname
+        if ':' in (hostname or '') and not hostname.startswith('['):
+            hostname = f'[{hostname}]'
+        
         # Construct the result dictionary
         return {
             "scheme": parsed_url.scheme or None,
@@ -38,7 +43,7 @@ def parse_url(url: str) -> Dict[str, Any]:
             "fragment": parsed_url.fragment or None,
             "username": parsed_url.username,
             "password": parsed_url.password,
-            "hostname": parsed_url.hostname,
+            "hostname": hostname,
             "port": parsed_url.port
         }
     except Exception as e:
