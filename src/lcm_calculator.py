@@ -20,12 +20,8 @@ def lcm(a: int, b: int) -> int:
     if not (isinstance(a, int) and isinstance(b, int)):
         raise ValueError("Both inputs must be integers")
     
-    if a < 0 or b < 0:
-        raise ValueError("Both inputs must be non-negative integers")
-    
-    # Special case: if either number is 0, return 0
-    if a == 0 or b == 0:
-        return 0
+    if a <= 0 or b <= 0:
+        raise ValueError("Both inputs must be positive integers")
     
     # Calculate LCM using the GCD method
     return abs(a * b) // gcd(a, b)
@@ -35,7 +31,7 @@ def lcm_multiple(*numbers: int) -> int:
     Calculate the LCM of multiple integers.
     
     Args:
-        *numbers (int): Variable number of non-negative integers
+        *numbers (int): Variable number of positive integers
     
     Returns:
         int: The least common multiple of all input numbers
@@ -45,6 +41,13 @@ def lcm_multiple(*numbers: int) -> int:
     """
     if not numbers:
         raise ValueError("At least one number must be provided")
+    
+    # Validate all inputs
+    for num in numbers:
+        if not isinstance(num, int):
+            raise ValueError("All inputs must be integers")
+        if num <= 0:
+            raise ValueError("All inputs must be positive integers")
     
     # Start with the first number
     result = numbers[0]
