@@ -1,4 +1,4 @@
-from src.gcd_calculator import gcd
+from src.gcd_calculator import gcd_using_prime_factors as gcd
 
 def lcm(a: int, b: int) -> int:
     """
@@ -20,8 +20,12 @@ def lcm(a: int, b: int) -> int:
     if not (isinstance(a, int) and isinstance(b, int)):
         raise ValueError("Both inputs must be integers")
     
-    if a <= 0 or b <= 0:
-        raise ValueError("Both inputs must be positive integers")
+    if a < 0 or b < 0:
+        raise ValueError("Both inputs must be non-negative integers")
+    
+    # Special case: if either number is 0, return 0
+    if a == 0 or b == 0:
+        return 0
     
     # Calculate LCM using the GCD method
     return abs(a * b) // gcd(a, b)
@@ -31,7 +35,7 @@ def lcm_multiple(*numbers: int) -> int:
     Calculate the LCM of multiple integers.
     
     Args:
-        *numbers (int): Variable number of positive integers
+        *numbers (int): Variable number of non-negative integers
     
     Returns:
         int: The least common multiple of all input numbers
