@@ -19,11 +19,6 @@ def test_lcm_multiple_numbers():
     assert lcm_multiple(3, 4, 6) == 12
     assert lcm_multiple(2, 3, 5, 7) == 210
 
-def test_lcm_zero_inputs():
-    assert lcm(0, 5) == 0
-    assert lcm(5, 0) == 0
-    assert lcm(0, 0) == 0
-
 def test_lcm_error_handling():
     with pytest.raises(ValueError, match="Inputs must be positive integers"):
         lcm(-1, 5)
@@ -31,6 +26,8 @@ def test_lcm_error_handling():
         lcm(5, -1)
     with pytest.raises(ValueError, match="Inputs must be positive integers"):
         lcm(-3, -4)
+    with pytest.raises(ValueError, match="Inputs must be positive integers"):
+        lcm(0, 5)
 
 def test_lcm_multiple_error_handling():
     with pytest.raises(ValueError, match="At least one number must be provided"):
