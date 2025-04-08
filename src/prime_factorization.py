@@ -1,3 +1,5 @@
+from src.is_prime import is_prime
+
 def prime_factorization(n):
     """
     Compute the prime factorization of a given positive integer.
@@ -22,7 +24,7 @@ def prime_factorization(n):
     # List to store prime factors
     factors = []
     
-    # Handle 2 as a special case first
+    # Special case for 2
     while n % 2 == 0:
         factors.append(2)
         n = n // 2
@@ -30,15 +32,17 @@ def prime_factorization(n):
     # Check for odd prime factors
     factor = 3
     while factor * factor <= n:
-        # If factor divides n, add it to factors
-        while n % factor == 0:
-            factors.append(factor)
-            n = n // factor
+        # Ensure only prime factors are added
+        if is_prime(factor):
+            # If factor divides n, add it to factors
+            while n % factor == 0:
+                factors.append(factor)
+                n = n // factor
         # Move to next potential prime factor
         factor += 2
     
     # If n is a prime number greater than 2
-    if n > 2:
+    if n > 2 and is_prime(n):
         factors.append(n)
     
     return factors
