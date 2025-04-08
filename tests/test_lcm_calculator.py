@@ -44,8 +44,11 @@ def test_lcm_multiple_invalid_inputs():
     with pytest.raises(ValueError, match="At least one number must be provided"):
         lcm_multiple()
     
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="All inputs must be positive integers"):
         lcm_multiple(2, 3, 0)
     
-    with pytest.raises(ValueError):
+    with pytest.raises(ValueError, match="All inputs must be positive integers"):
         lcm_multiple(2, -3, 4)
+    
+    with pytest.raises(ValueError, match="All inputs must be integers"):
+        lcm_multiple(2, 3, 3.5)
