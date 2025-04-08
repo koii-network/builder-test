@@ -1,4 +1,4 @@
-from src.gcd_calculator import calculate_gcd
+from src.gcd_calculator import gcd_using_prime_factors
 
 def simplify_fraction(numerator: int, denominator: int) -> tuple[int, int]:
     """
@@ -39,7 +39,7 @@ def simplify_fraction(numerator: int, denominator: int) -> tuple[int, int]:
     abs_denominator = abs(denominator)
 
     # Calculate GCD
-    gcd = calculate_gcd(abs_numerator, abs_denominator)
+    gcd = gcd_using_prime_factors(abs_numerator, abs_denominator)
 
     # Simplify the fraction
     simplified_numerator = sign * (abs_numerator // gcd)
