@@ -1,4 +1,4 @@
-from src.gcd_calculator import gcd
+from src.gcd_calculator import gcd_with_prime_factors as gcd
 
 def simplify_fraction(numerator: int, denominator: int) -> tuple[int, int]:
     """
