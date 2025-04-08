@@ -36,5 +36,14 @@ def test_lcm_multiple_error_handling():
         lcm_multiple(2, 3, -4)
 
 def test_lcm_large_numbers():
+    def gcd(a, b):
+        while b:
+            a, b = b, a % b
+        return a
+
+    def manual_lcm(a, b):
+        return (a * b) // gcd(a, b)
+
+    a, b = 123456, 789012
+    assert lcm(a, b) == manual_lcm(a, b)
     assert lcm(1000000, 1500000) == 3000000
-    assert lcm(123456, 789012) == 2222625456
