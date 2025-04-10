@@ -33,3 +33,7 @@ def test_reverse_string_invalid_input():
 def test_reverse_string_unicode():
     """Test reversing unicode strings."""
     assert reverse_string("café") == "éfac"
+
+def test_reverse_string_mixed_characters():
+    """Test reversing a string with mixed character types."""
+    assert reverse_string("a1b2c3!@#") == "#@!3c2b1a"
