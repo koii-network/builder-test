@@ -1,5 +1,5 @@
-from urllib.parse import urlparse, parse_qs, unquote
-from typing import Dict, Any, Optional
+from urllib.parse import urlparse, unquote
+from typing import Dict, Any, Optional, Union, List
 
 def parse_url(url: str) -> Dict[str, Any]:
     """
@@ -23,24 +23,22 @@ def parse_url(url: str) -> Dict[str, Any]:
         parsed_url = urlparse(url)
         
         # Extract query parameters with raw URL-encoded values
-        query_params = {}
+        query_params: Dict[str, Union[str, List[str]]] = {}
         if parsed_url.query:
-            # Use custom parsing to preserve URL-encoded values
+            # Use custom parsing to handle multiple parameters
             for param in parsed_url.query.split('&'):
                 if '=' in param:
                     key, value = param.split('=', 1)
-                    query_params[unquote(key)] = value
-        
-        # Flatten multiple instances of the same parameter into a list
-        combined_params = {}
-        for key, value in query_params.items():
-            if key in combined_params:
-                if isinstance(combined_params[key], list):
-                    combined_params[key].append(value)
-                else:
-                    combined_params[key] = [combined_params[key], value]
-            else:
-                combined_params[key] = value
+                    decoded_key = unquote(key)
+                    
+                    # Handle multiple values for the same key
+                    if decoded_key in query_params:
+                        if isinstance(query_params[decoded_key], list):
+                            query_params[decoded_key].append(value)  # type: ignore
+                        else:
+                            query_params[decoded_key] = [query_params[decoded_key], value]  # type: ignore
+                    else:
+                        query_params[decoded_key] = value
         
         # Construct and return the parsed URL dictionary
         return {
@@ -48,7 +46,7 @@ def parse_url(url: str) -> Dict[str, Any]:
             'netloc': parsed_url.netloc or None,
             'path': parsed_url.path or None,
             'params': parsed_url.params or None,
-            'query': combined_params,
+            'query': query_params,
             'fragment': parsed_url.fragment or None,
             'username': parsed_url.username,
             'password': parsed_url.password,
