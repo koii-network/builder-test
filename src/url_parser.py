@@ -29,12 +29,12 @@ def parse_url(url: str) -> Dict[str, Any]:
 
         # Construct and return the parsed URL dictionary
         return {
-            'scheme': parsed.scheme or None,
-            'netloc': parsed.netloc or None,
-            'path': parsed.path or None,
+            'scheme': parsed.scheme or '',  # Change to empty string if None
+            'netloc': parsed.netloc or '',  # Change to empty string if None
+            'path': parsed.path or '',      # Change to empty string if None
             'params': parsed.params or None,
             'query': query_params,
-            'fragment': parsed.fragment or None,
+            'fragment': parsed.fragment or '',  # Change to empty string if None
             'username': parsed.username,
             'password': parsed.password,
             'hostname': parsed.hostname,
