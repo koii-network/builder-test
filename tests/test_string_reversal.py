@@ -15,7 +15,7 @@ def test_reverse_string_single_char():
     assert reverse_string("a") == "a"
 
 def test_reverse_string_with_spaces():
-    """Test string reversal with spaces."""
+    """Test string reversal preserves spaces."""
     assert reverse_string("hello world") == "dlrow olleh"
 
 def test_reverse_string_with_special_chars():
@@ -33,3 +33,16 @@ def test_reverse_string_invalid_input():
 def test_reverse_string_unicode():
     """Test reversal of Unicode strings."""
     assert reverse_string("こんにちは") == "はちにんこ"
+
+def test_implementation_method():
+    """Ensure the implementation does not use slice notation or reverse()."""
+    import inspect
+    import src.string_reversal
+    
+    # Get the source code of the function
+    source_lines = inspect.getsource(src.string_reversal.reverse_string)
+    source_code = ''.join(source_lines)
+    
+    # Check that forbidden methods are not used
+    assert '[::-1]' not in source_code, "Do not use slice notation for reversal"
+    assert '.reverse()' not in source_code, "Do not use built-in reverse() method"
