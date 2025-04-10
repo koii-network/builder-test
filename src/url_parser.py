@@ -33,14 +33,16 @@ def parse_url(url: str) -> Dict[str, Any]:
         }
         
         # Extract additional useful information
-        # Split netloc into username, password, hostname, and port
+        # Handle credentials first
         if '@' in parsed_url.netloc:
-            # Handle credentials
             credentials, host = parsed_url.netloc.split('@', 1)
             if ':' in credentials:
                 result['username'], result['password'] = credentials.split(':', 1)
             else:
                 result['username'] = credentials
+            
+            # Update netloc to only include host
+            parsed_url = parsed_url._replace(netloc=host)
         
         # Split host and port
         if ':' in parsed_url.netloc:
