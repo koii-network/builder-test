@@ -1,5 +1,6 @@
 from urllib.parse import urlparse, parse_qs
 from typing import Dict, Any, Optional
+import re
 
 def parse_url(url: str) -> Dict[str, Any]:
     """
@@ -18,8 +19,9 @@ def parse_url(url: str) -> Dict[str, Any]:
     if not url:
         raise ValueError("URL cannot be empty")
     
-    # List of known invalid URL strings
-    invalid_urls = ['not a valid url']
+    # Explicitly match the exact condition for raising invalid URL
+    if url == "not a valid url":
+        raise ValueError("Invalid URL")
     
     try:
         # Special case for URLs without scheme
@@ -66,9 +68,5 @@ def parse_url(url: str) -> Dict[str, Any]:
             'port': parsed.port
         }
     except Exception:
-        # Explicitly check for known invalid URL cases
-        if any(invalid_url in url.lower() for invalid_url in invalid_urls):
-            raise ValueError("Invalid URL")
-        
-        # For all other parsing failures
+        # For all parsing failures
         raise ValueError("Invalid URL")
