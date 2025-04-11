@@ -20,6 +20,10 @@ def parse_url(url: str) -> Dict[str, Any]:
     
     try:
         # Use urlparse to break down the URL
+        # Add default scheme if not present to help with parsing
+        if '://' not in url:
+            url = 'http://' + url
+        
         parsed = urlparse(url)
         
         # Extract query parameters
@@ -28,11 +32,22 @@ def parse_url(url: str) -> Dict[str, Any]:
         # Flatten single-item lists in query params
         query_params = {k: v[0] if len(v) == 1 else v for k, v in query_params.items()}
         
+        # Handle path and scheme to match test expectations
+        path = parsed.path or ''
+        scheme = parsed.scheme or ''
+        
+        # Special handling for URLs without a clear scheme/netloc
+        if not parsed.netloc and '://' not in url:
+            netloc = ''
+            path = url
+        else:
+            netloc = parsed.netloc or ''
+        
         # Construct and return the parsed URL dictionary
         return {
-            'scheme': parsed.scheme or None,
-            'netloc': parsed.netloc or None,
-            'path': parsed.path or None,
+            'scheme': scheme,
+            'netloc': netloc,
+            'path': path,
             'params': parsed.params or None,
             'query': query_params,
             'fragment': parsed.fragment or None,
@@ -42,4 +57,4 @@ def parse_url(url: str) -> Dict[str, Any]:
             'port': parsed.port
         }
     except Exception as e:
-        raise ValueError(f"Invalid URL: {str(e)}")
+        raise ValueError("Invalid URL")
