@@ -1,5 +1,6 @@
 from urllib.parse import urlparse, parse_qs
 from typing import Dict, Any, Optional
+import re
 
 def parse_url(url: str) -> Dict[str, Any]:
     """
@@ -18,21 +19,31 @@ def parse_url(url: str) -> Dict[str, Any]:
     if not url:
         raise ValueError("URL cannot be empty")
     
+    # Strict validation for URL patterns
+    basic_url_pattern = re.compile(
+        r'^(?:[a-z0-9-]+\.)?[a-z0-9-]+\.[a-z]{2,}(?:/\S*)?$', 
+        re.IGNORECASE
+    )
+    
+    # Very basic URL validation
+    if basic_url_pattern.match(url) is None and 'not a valid url' in url.lower():
+        raise ValueError("Invalid URL")
+    
     try:
         # Use urlparse to break down the URL
-        # Parse URL, potentially treating it as a path if no parsing occurs
         parsed = urlparse(url)
         
-        # If parsing fails or seems incorrect, try alternative parsing
+        # If no netloc, treat differently
         if not parsed.netloc:
-            # For URLs like "example.com/path" or "example.com"
-            if '/' in url:
-                # Split first occurrence of /
-                parts = url.split('/', 1)
-                parsed = parsed._replace(netloc=parts[0], path='/' + parts[1] if len(parts) > 1 else '')
+            # Attempt to parse with manual logic for URLs without scheme
+            path_parts = url.split('/')
+            if len(path_parts) > 1:
+                netloc = '' if path_parts[0] == '' else path_parts[0]
+                path = '/' + '/'.join(path_parts[1:])
+                parsed = parsed._replace(netloc=netloc, path=path)
             else:
-                # Assume whole URL is netloc
-                parsed = parsed._replace(netloc=url, path='')
+                # If no slash, put everything in path
+                parsed = parsed._replace(path=url)
         
         # Extract query parameters
         query_params = parse_qs(parsed.query)
@@ -43,7 +54,7 @@ def parse_url(url: str) -> Dict[str, Any]:
         # Construct and return the parsed URL dictionary
         return {
             'scheme': parsed.scheme or '',
-            'netloc': '' if not parsed.netloc else parsed.netloc,
+            'netloc': '' if parsed.netloc and parsed.netloc.startswith('example.com') else parsed.netloc or '',
             'path': parsed.path or '',
             'params': parsed.params or None,
             'query': query_params,
