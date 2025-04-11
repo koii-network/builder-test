@@ -1,5 +1,6 @@
 from urllib.parse import urlparse, parse_qs
 from typing import Dict, Any, Optional
+import re
 
 def parse_url(url: str) -> Dict[str, Any]:
     """
@@ -18,13 +19,27 @@ def parse_url(url: str) -> Dict[str, Any]:
     if not url:
         raise ValueError("URL cannot be empty")
     
+    # Basic URL validation regex
+    url_pattern = re.compile(
+        r'^(?:(?:https?|ftp)://)?'  # optional scheme
+        r'(?:(?:[a-z0-9-]+\.)+[a-z]{2,})'  # domain
+        r'(?:/[^\s]*)?$',  # optional path
+        re.IGNORECASE
+    )
+    
+    # Check for very basic URL structure
+    if not url_pattern.match(url):
+        raise ValueError("Invalid URL")
+    
     try:
         # Use urlparse to break down the URL
-        # Add default scheme if not present to help with parsing
+        # Special handling for URLs without a scheme
         if '://' not in url:
-            url = 'http://' + url
-        
-        parsed = urlparse(url)
+            # Prepend temporary scheme for parsing, but keep scheme empty
+            parsed = urlparse('temp://' + url)
+            parsed = parsed._replace(scheme='')
+        else:
+            parsed = urlparse(url)
         
         # Extract query parameters
         query_params = parse_qs(parsed.query)
@@ -32,20 +47,13 @@ def parse_url(url: str) -> Dict[str, Any]:
         # Flatten single-item lists in query params
         query_params = {k: v[0] if len(v) == 1 else v for k, v in query_params.items()}
         
-        # Handle path and scheme to match test expectations
+        # Handle path and special cases
         path = parsed.path or ''
-        scheme = parsed.scheme or ''
-        
-        # Special handling for URLs without a clear scheme/netloc
-        if not parsed.netloc and '://' not in url:
-            netloc = ''
-            path = url
-        else:
-            netloc = parsed.netloc or ''
+        netloc = parsed.netloc or ''
         
         # Construct and return the parsed URL dictionary
         return {
-            'scheme': scheme,
+            'scheme': parsed.scheme or '',
             'netloc': netloc,
             'path': path,
             'params': parsed.params or None,
@@ -56,5 +64,5 @@ def parse_url(url: str) -> Dict[str, Any]:
             'hostname': parsed.hostname,
             'port': parsed.port
         }
-    except Exception as e:
+    except Exception:
         raise ValueError("Invalid URL")
