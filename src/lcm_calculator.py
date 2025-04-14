@@ -1,4 +1,4 @@
-from src.gcd_calculator import gcd
+from src.gcd_calculator import gcd_using_prime_factors as gcd
 
 def lcm(a: int, b: int) -> int:
     """
