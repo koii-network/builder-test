@@ -30,7 +30,7 @@ def parse_url(url: str) -> Dict[str, Optional[str]]:
             'scheme': parsed_url.scheme or None,
             'netloc': parsed_url.netloc or None,
             'path': parsed_url.path or None,
-            'params': parsed_url.params or None,
+            'params': parsed_url.params or '',  # Change to empty string instead of None
             'query': parsed_url.query or None,
             'fragment': parsed_url.fragment or None,
             'username': parsed_url.username or None,
@@ -39,5 +39,7 @@ def parse_url(url: str) -> Dict[str, Optional[str]]:
             'port': parsed_url.port or None
         }
     except Exception:
-        # Catch any unexpected parsing errors
-        raise ValueError(f"Invalid URL format: {url}")
+        # Check for basic URL format
+        if '.' not in url or not url.startswith(('http://', 'https://', 'ftp://')):
+            raise ValueError(f"Invalid URL format: {url}")
+        raise
