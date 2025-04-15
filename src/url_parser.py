@@ -25,8 +25,16 @@ def parse_url(url: str) -> Dict[str, Any]:
         raise ValueError("Invalid URL: URL must be a non-empty string")
 
     try:
-        # Use urlparse to break down the URL
+        # Try to parse the URL, raising an error if it fails
         parsed = urlparse(url)
+        
+        # Require a scheme (protocol) to be a valid URL
+        if not parsed.scheme:
+            raise ValueError("Invalid URL: Missing protocol")
+
+        # Require a netloc (domain) to be a valid URL
+        if not parsed.netloc:
+            raise ValueError("Invalid URL: Missing domain")
 
         # Extract query parameters
         query_params = parse_qs(parsed.query)
