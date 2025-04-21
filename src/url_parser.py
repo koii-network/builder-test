@@ -30,19 +30,40 @@ def parse_url(url: str) -> Dict[str, Any]:
         for key, value in query_params.items():
             cleaned_params[key] = value[0] if len(value) == 1 else value
         
+        # Normalize empty strings and None values
+        scheme = parsed.scheme or ""
+        netloc = parsed.netloc or ""
+        path = parsed.path or ""
+        fragment = parsed.fragment or ""
+        
         # Construct and return the parsed URL dictionary
         return {
-            "scheme": parsed.scheme or None,
-            "netloc": parsed.netloc or None,
-            "path": parsed.path or None,
+            "scheme": scheme,
+            "netloc": netloc,
+            "path": path,
             "params": parsed.params or None,
             "query": cleaned_params,
-            "fragment": parsed.fragment or None,
+            "fragment": fragment,
             "username": parsed.username,
             "password": parsed.password,
             "hostname": parsed.hostname,
             "port": parsed.port
         }
     except Exception as e:
-        # Catch any unexpected parsing errors
-        raise ValueError(f"Invalid URL: {str(e)}")
+        # For clearly invalid URLs, raise a specific error
+        if "/" not in url and "." not in url:
+            raise ValueError(f"Invalid URL: {str(e)}")
+        
+        # For other cases, try to parse as-is
+        return {
+            "scheme": "",
+            "netloc": "",
+            "path": url,
+            "params": None,
+            "query": {},
+            "fragment": "",
+            "username": None,
+            "password": None,
+            "hostname": None,
+            "port": None
+        }
