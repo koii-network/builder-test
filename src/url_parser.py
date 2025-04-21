@@ -18,6 +18,10 @@ def parse_url(url: str) -> Dict[str, Any]:
     if not url or not isinstance(url, str):
         raise ValueError("URL must be a non-empty string")
     
+    # Basic validation to check for truly invalid URLs
+    if not any(char in url for char in ['/', '.']):
+        raise ValueError("Invalid URL")
+    
     try:
         # Use urlparse to break down the URL
         parsed = urlparse(url)
@@ -50,20 +54,5 @@ def parse_url(url: str) -> Dict[str, Any]:
             "port": parsed.port
         }
     except Exception as e:
-        # For clearly invalid URLs, raise a specific error
-        if "/" not in url and "." not in url:
-            raise ValueError(f"Invalid URL: {str(e)}")
-        
-        # For other cases, try to parse as-is
-        return {
-            "scheme": "",
-            "netloc": "",
-            "path": url,
-            "params": None,
-            "query": {},
-            "fragment": "",
-            "username": None,
-            "password": None,
-            "hostname": None,
-            "port": None
-        }
+        # For other unexpected errors
+        raise ValueError(f"Invalid URL: {str(e)}")
