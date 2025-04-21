@@ -54,7 +54,7 @@ def test_none_url_raises_error():
 def test_invalid_url_parsing():
     """Test parsing an invalid URL"""
     with pytest.raises(ValueError, match="Invalid URL"):
-        parse_url("not a valid url")
+        parse_url("not valid")
 
 def test_url_with_no_scheme():
     """Test URL without a scheme"""
