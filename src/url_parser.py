@@ -47,7 +47,7 @@ def parse_url(url: str) -> Dict[str, Any]:
         # Convert query params to their single values if possible
         query_params = {k: v[0] if len(v) == 1 else v for k, v in query_params.items()}
 
-        # Determine protocol
+        # Determine protocol - keep as 'http' if that's the default
         protocol = parsed_url.scheme if parsed_url.scheme != 'http' else None
 
         # Determine path
@@ -59,7 +59,7 @@ def parse_url(url: str) -> Dict[str, Any]:
 
         # Construct the result dictionary
         return {
-            'protocol': protocol,
+            'protocol': parsed_url.scheme,
             'domain': parsed_url.hostname,
             'port': parsed_url.port,
             'path': path,
