@@ -31,4 +31,4 @@ def test_reverse_string_invalid_input():
         reverse_string(None)
     
     with pytest.raises(TypeError, match="Input must be a string"):
-        reverse_string(["list"]))
+        reverse_string(["list"])
