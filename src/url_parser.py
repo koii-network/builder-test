@@ -29,6 +29,10 @@ def parse_url(url: str) -> Dict[str, Any]:
         raise ValueError("URL cannot be empty")
 
     try:
+        # If no protocol is present, try adding a default one
+        if '://' not in url:
+            url = 'http://' + url
+
         # Use urlparse to break down the URL
         parsed_url = urlparse(url)
         
@@ -37,12 +41,24 @@ def parse_url(url: str) -> Dict[str, Any]:
         # Convert query params to their single values if possible
         query_params = {k: v[0] if len(v) == 1 else v for k, v in query_params.items()}
 
+        # Determine domain and path
+        domain = parsed_url.hostname
+        path = parsed_url.path if parsed_url.path and parsed_url.path != '/' else None
+
+        # Ensure path starts with '/' if present
+        if path and not path.startswith('/'):
+            path = '/' + path
+
+        # Validate the URL against minimum requirements
+        if not domain and not path:
+            raise ValueError(f"Invalid URL: {url}")
+
         # Construct the result dictionary
         return {
             'protocol': parsed_url.scheme or None,
-            'domain': parsed_url.hostname or None,
+            'domain': domain,
             'port': parsed_url.port,
-            'path': parsed_url.path or None,
+            'path': path,
             'query_params': query_params,
             'fragment': parsed_url.fragment or None
         }
