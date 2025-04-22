@@ -33,22 +33,26 @@ def parse_url(url: str) -> Dict[str, Any]:
         if not any(char in url for char in ['/', '.', ':']):
             raise ValueError(f"Invalid URL: {url}")
 
-        # Try parsing with no protocol first
-        parsed_url = urlparse(url)
-        
-        # If no hostname found, try adding http://
-        if not parsed_url.hostname:
-            # If no protocol and no hostname, this looks like an invalid URL
-            url = 'http://' + url
+        # Try parsing with potential manual protocol handling
+        if '://' not in url:
+            # If the URL contains path, treat it as a potential http URL
+            if '/' in url:
+                # If there's a path, try http:// 
+                parsed_url = urlparse('http://' + url)
+                protocol = None
+            else:
+                # If just a domain, try http://
+                parsed_url = urlparse('http://' + url)
+                protocol = None
+        else:
+            # If protocol is present, use as-is
             parsed_url = urlparse(url)
+            protocol = parsed_url.scheme
         
         # Extract query parameters
         query_params = parse_qs(parsed_url.query)
         # Convert query params to their single values if possible
         query_params = {k: v[0] if len(v) == 1 else v for k, v in query_params.items()}
-
-        # Determine protocol - keep as 'http' if that's the default
-        protocol = parsed_url.scheme if parsed_url.scheme != 'http' else None
 
         # Determine path
         path = parsed_url.path if parsed_url.path and parsed_url.path != '/' else None
@@ -59,7 +63,7 @@ def parse_url(url: str) -> Dict[str, Any]:
 
         # Construct the result dictionary
         return {
-            'protocol': parsed_url.scheme,
+            'protocol': protocol,
             'domain': parsed_url.hostname,
             'port': parsed_url.port,
             'path': path,
