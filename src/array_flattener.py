@@ -1,4 +1,4 @@
-from typing import List, Union, Any, Iterable
+from typing import List, Union, Any, Iterable, Tuple
 
 def flatten_array(arr: Union[List[Any], Tuple[Any, ...]]) -> List[Any]:
     """
