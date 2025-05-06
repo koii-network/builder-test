@@ -35,4 +35,4 @@ def test_invalid_input_type():
         reverse_string(None)
     
     with pytest.raises(TypeError, match="Input must be a string"):
-        reverse_string(["hello"]))
+        reverse_string(["hello"])
