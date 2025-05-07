@@ -12,18 +12,18 @@ def rgb_to_hex(r, g, b):
 
     Raises:
         ValueError: If any color value is outside the valid range of 0-255
-        TypeError: If color values are not numeric
+        TypeError: If color values cannot be converted to integers
     """
-    # Validate input types
-    if not all(isinstance(x, (int, float)) for x in (r, g, b)):
+    # Validate input types first
+    if not all(isinstance(x, (int, float, str)) for x in (r, g, b)):
         raise TypeError("RGB values must be numeric")
-    
-    # Convert to integers and validate range
+
+    # Try to convert to integers
     try:
         r = int(r)
         g = int(g)
         b = int(b)
-    except ValueError:
+    except (ValueError, TypeError):
         raise TypeError("RGB values must be convertible to integers")
 
     # Check color value ranges
