@@ -14,6 +14,10 @@ def test_float_inputs():
     assert rgb_to_hex(255.0, 128.0, 0.0) == '#FF8000'
     assert rgb_to_hex(100.5, 200.7, 50.2) == '#64C832'
 
+def test_string_numeric_inputs():
+    """Test conversion with string numeric inputs"""
+    assert rgb_to_hex('255', '128', '0') == '#FF8000'
+
 def test_edge_case_inputs():
     """Test edge case inputs"""
     assert rgb_to_hex(0, 0, 0) == '#000000'
@@ -28,11 +32,11 @@ def test_invalid_inputs():
         rgb_to_hex(0, -1, 0)
     
     # Non-numeric inputs
-    with pytest.raises(TypeError, match="RGB values must be numeric"):
+    with pytest.raises(TypeError, match="RGB values must be convertible to integers"):
         rgb_to_hex('red', 0, 0)
     with pytest.raises(TypeError, match="RGB values must be numeric"):
         rgb_to_hex(0, [1], 0)
     
     # Non-convertible inputs
     with pytest.raises(TypeError, match="RGB values must be convertible to integers"):
-        rgb_to_hex(255.5, '100', 0)
+        rgb_to_hex(255.5, '100a', 0)
