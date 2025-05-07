@@ -21,7 +21,21 @@ def test_prime_factorization_edge_cases():
 def test_prime_factorization_large_number():
     """Test large number factorization"""
     result = prime_factorization(84672)
-    assert result == [2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 881]
+    # Verify the prime factorization without enforcing exact order
+    assert all(isinstance(x, int) and x > 1 for x in result)
+    assert prod(result) == 84672
+    
+    # Specific factorization verification
+    assert result.count(2) == 8
+    assert result.count(3) == 2
+    assert 881 in result
+
+def prod(iterable):
+    """Simple product function for testing"""
+    result = 1
+    for x in iterable:
+        result *= x
+    return result
 
 def test_prime_factorization_invalid_inputs():
     """Test error handling for invalid inputs"""
