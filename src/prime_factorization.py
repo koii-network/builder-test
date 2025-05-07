@@ -43,4 +43,4 @@ def prime_factorization(n):
     if n > 2:
         factors.append(n)
     
-    return factors
+    return sorted(factors)
